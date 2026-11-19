@@ -1,0 +1,186 @@
+{
+  "title": "MIỀN NAM và tây nguyên",
+  "footer": " HTX",
+  "routes": [
+    [
+      [
+        "Rừng Phước Bửu",
+        "check"
+      ],
+      [
+        "Nam Cát Tiên",
+        "check"
+      ],
+      [
+        "Chư Blúk - Hồ Đá",
+        "box"
+      ]
+    ],
+    [
+      [
+        "Tượng Kỳ",
+        "check"
+      ],
+      [
+        "Minh Đạm",
+        "x"
+      ],
+      [
+        "Thị Vải",
+        "x"
+      ],
+      [
+        "Tóc Tiên",
+        "box"
+      ],
+      [
+        "Núi Dinh",
+        "box"
+      ]
+    ],
+    [
+      [
+        "Núi Lubu",
+        "box"
+      ],
+      [
+        "Thác Phi Liêng",
+        "box"
+      ],
+      [
+        "Thác Mưa Bay",
+        "box"
+      ],
+      [
+        "Núi Tà Cú",
+        "box"
+      ],
+      [
+        "Laan - Tuyệt Tình Cốc",
+        "box"
+      ]
+    ],
+    [
+      [
+        "Hồ Tiên - La Ngâu",
+        "box"
+      ],
+      [
+        "Masara - Đồi Cô Hồng",
+        "box"
+      ],
+      [
+        "Lombur - Con đường lương thực",
+        "box"
+      ],
+      [
+        "Thác K50",
+        "box"
+      ],
+      [
+        "Thác Siêu Đuông",
+        "box"
+      ],
+      [
+        "Thác Triệu Hải",
+        "box"
+      ],
+      [
+        "Chư Nâm - Chư Đăng Ya",
+        "box"
+      ],
+      [
+        "Cực Đông - Mũi Đôi",
+        "box"
+      ],
+      [
+        "Núi Cấm",
+        "box"
+      ],
+      [
+        "VQG Bù Gia Mập",
+        "box"
+      ],
+      [
+        "Núi Langbiang - Đồi Radar",
+        "box"
+      ],
+      [
+        "Núi Đại Bình",
+        "box"
+      ],
+      [
+        "Núi Chứa Chan",
+        "box"
+      ]
+    ],
+    [
+      [
+        "Tà Năng - Đồi Lính - Phan Dũng",
+        "box"
+      ],
+      [
+        "Đỉnh Tà Đùng",
+        "box"
+      ],
+      [
+        "3 Đỉnh Lomburr - Thác Lâm An",
+        "box"
+      ],
+      [
+        "Chư Yang Lak",
+        "box"
+      ],
+      [
+        "VQG Núi Chúa",
+        "box"
+      ],
+      [
+        "Núi Bà Đen (Chùa - Cột)",
+        "box"
+      ],
+      [
+        "Núi Brahyang - Yang Doan",
+        "box"
+      ],
+      [
+        "Mộng Đào Nguyên",
+        "box"
+      ],
+      [
+        "Hoàng Ngư Sơn",
+        "box"
+      ],
+      [
+        "Thảo Nguyên Pai Sol",
+        "box"
+      ],
+      [
+        "Bidoup Đỉnh",
+        "box"
+      ],
+      [
+        "Thác Tam Thâm",
+        "box"
+      ]
+    ],
+    [
+      [
+        "Chư H'Mu - Hòn Vọng Phu",
+        "box"
+      ],
+      [
+        "Phan Dũng - Yavly - Tà Năng",
+        "box"
+      ],
+      [
+        "Bidoup - Phước Bình - Tà Giang",
+        "box"
+      ],
+      [
+        "Chư Yang Sin",
+        "box"
+      ]
+    ]
+  ]
+}

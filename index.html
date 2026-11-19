@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trekking infographic editor</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: #f2f5f7;
+      color: #17212b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body { margin: 0; }
+
+    header {
+      padding: 18px 24px;
+      background: #123d32;
+      color: white;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      color: #d3e6dc;
+      font-size: 13px;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(320px, 430px) minmax(0, 1fr);
+      align-items: start;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .editor, .preview {
+      min-width: 0;
+      border: 1px solid #d5dde2;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 2px 8px #132a3510;
+    }
+
+    .editor { padding: 18px; }
+
+    .field { margin-bottom: 16px; }
+
+    label, .group-title {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input[type="text"], select {
+      min-width: 0;
+      width: 100%;
+      min-height: 36px;
+      padding: 7px 9px;
+      border: 1px solid #bec9d0;
+      border-radius: 6px;
+      background: white;
+      color: inherit;
+      font: inherit;
+      font-size: 13px;
+    }
+
+    input:focus, select:focus, button:focus-visible {
+      outline: 2px solid #1683b4;
+      outline-offset: 1px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 4px 0 16px;
+    }
+
+    button {
+      min-height: 35px;
+      padding: 7px 11px;
+      border: 1px solid #b8c5cc;
+      border-radius: 6px;
+      background: #f7fafb;
+      color: #19313b;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    button:hover { background: #edf4f6; }
+
+    button.primary {
+      border-color: #145a48;
+      background: #145a48;
+      color: white;
+    }
+
+    button.primary:hover { background: #0e4939; }
+
+    .groups {
+      display: grid;
+      gap: 12px;
+    }
+
+    .route-group {
+      padding: 12px;
+      border: 1px solid #dce3e7;
+      border-radius: 8px;
+      background: #fbfcfd;
+    }
+
+    .group-title { margin-bottom: 9px; }
+
+    .route-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 120px 34px;
+      gap: 6px;
+      margin-top: 7px;
+    }
+
+    .route-row input, .route-row select {
+      min-height: 34px;
+      padding: 5px 7px;
+      font-size: 12px;
+    }
+
+    .route-row .remove {
+      min-height: 34px;
+      padding: 4px;
+      color: #973b32;
+    }
+
+    .add-route {
+      width: 100%;
+      margin-top: 9px;
+      border-style: dashed;
+    }
+
+    .preview { padding: 14px; }
+
+    .preview-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .preview-head h2 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .canvas-wrap {
+      overflow: auto;
+      border: 1px solid #dce3e7;
+      background: #e7eef1;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .hint, #status {
+      margin: 10px 0 0;
+      color: #53636b;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    #status { min-height: 18px; }
+
+    #background-file, #settings-file { display: none; }
+
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 520px) {
+      main { padding: 10px; }
+      .editor, .preview { padding: 12px; }
+      .route-row { grid-template-columns: minmax(0, 1fr) 98px 34px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Trekking infographic editor</h1>
+    <p>Chỉnh sửa nội dung, xem trước và tải poster PNG.</p>
+  </header>
+
+  <main>
+    <section class="editor" aria-label="Poster settings">
+      <div class="field">
+        <label for="title">Tiêu đề</label>
+        <input id="title" type="text" value="MIỀN NAM VIỆT NAM">
+      </div>
+
+      <div class="field">
+        <label for="footer">Chân trang (để trống nếu không cần)</label>
+        <input id="footer" type="text" value="TREKKING HÀNH TRÌNH XANH - LEO NÚI TRONG NGÀY">
+      </div>
+
+      <div class="toolbar">
+        <button id="download" class="primary" type="button">Tải ảnh PNG</button>
+        <button id="choose-background" type="button">Chọn ảnh nền</button>
+        <button id="export-settings" type="button">Xuất JSON</button>
+        <button id="import-settings" type="button">Nhập JSON</button>
+        <input id="background-file" type="file" accept="image/*">
+        <input id="settings-file" type="file" accept="application/json,.json">
+      </div>
+
+      <p id="save-state" class="hint" role="status" aria-live="polite">Đang tải config/settings.json...</p>
+      <p class="hint">Để lưu cài đặt vào repo, chạy <code>python server.py</code> rồi mở <code>http://127.0.0.1:8765</code>. Dùng Xuất/Nhập JSON để chuyển cài đặt giữa các trình duyệt.</p>
+      <div id="groups" class="groups"></div>
+    </section>
+
+    <section class="preview" aria-label="Poster preview">
+      <div class="preview-head">
+        <h2>Xem trước</h2>
+        <span id="dimensions" class="hint"></span>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="poster" width="2160" height="1215" aria-label="Infographic preview"></canvas>
+      </div>
+      <p class="hint">Ảnh nền mặc định là file JPG đặt cạnh trang HTML. Nếu trình duyệt không cho tải ảnh, hãy dùng “Chọn ảnh nền” và chọn lại file JPG.</p>
+      <p id="status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script>
+    const columnNames = ["Cột 1 · Siêu dễ", "Cột 2 · Dễ", "Cột 3 · Trung bình", "Cột 4 · Trung bình khá", "Cột 5 · Khá", "Cột 6 · Khó"];
+    const routes = [
+      [
+        ["Rừng Phước Bửu", "box"], ["Nam Cát Tiên", "box"], ["Chư Blúk - Hồ Đá", "box"]
+      ],
+      [
+        ["Tượng Kỳ", "box"], ["Minh Đạm", "box"], ["Thị Vải", "box"], ["Tóc Tiên", "box"], ["Núi Dinh", "box"]
+      ],
+      [
+        ["Núi Lubu", "box"], ["Thác Phi Liêng", "box"], ["Thác Mưa Bay", "box"], ["Núi Tà Cú", "box"], ["Laan - Tuyệt Tình Cốc", "box"]
+      ],
+      [
+        ["Hồ Tiên - La Ngâu", "box"], ["Masara - Đồi Cô Hồng", "box"], ["Lombur - Con đường lương thực", "box"],
+        ["Thác K50", "box"], ["Thác Siêu Đuông", "box"], ["Thác Triệu Hải", "box"], ["Chư Nâm - Chư Đăng Ya", "box"],
+        ["Cực Đông - Mũi Đôi", "box"], ["Núi Cấm", "box"], ["VQG Bù Gia Mập", "box"], ["Núi Langbiang - Đồi Radar", "box"],
+        ["Núi Đại Bình", "box"], ["Núi Chứa Chan", "box"]
+      ],
+      [
+        ["Tà Năng - Đồi Lính - Phan Dũng", "box"], ["Đỉnh Tà Đùng", "box"], ["3 Đỉnh Lomburr - Thác Lâm An", "box"],
+        ["Chư Yang Lak", "box"], ["VQG Núi Chúa", "box"], ["Núi Bà Đen (Chùa - Cột)", "box"], ["Núi Brahyang - Yang Doan", "box"],
+        ["Mộng Đào Nguyên", "box"], ["Hoàng Ngư Sơn", "box"], ["Thảo Nguyên Pai Sol", "box"], ["Bidoup Đỉnh", "box"],
+        ["Thác Tam Thâm", "box"]
+      ],
+      [
+        ["Chư H'Mu - Hòn Vọng Phu", "box"], ["Phan Dũng - Yavly - Tà Năng", "box"],
+        ["Bidoup - Phước Bình - Tà Giang", "box"], ["Chư Yang Sin", "box"]
+      ]
+    ];
+
+    const iconLabels = { box: "□ Checkbox", check: "✓ Check", x: "✕ X mark" };
+    const legacyStorageKey = "trekking-infographic-settings-v1";
+    const referenceImageName = "05f8aed9-bd44-432d-a204-3f7eb0b536b6.jpg";
+    const BASE_WIDTH = 1280;
+    const BASE_HEIGHT = 720;
+    const OUTPUT_WIDTH = 2160;
+    const OUTPUT_SCALE = OUTPUT_WIDTH / BASE_WIDTH;
+    const posterFontFamily = '"Tahoma", "Segoe UI", Arial, sans-serif';
+    const canvas = document.getElementById("poster");
+    const ctx = canvas.getContext("2d");
+    const background = new Image();
+    const status = document.getElementById("status");
+    let backgroundObjectUrl = null;
+    let backgroundCanvas = null;
+    let backgroundReady = false;
+    let cleanReferenceHeading = true;
+    let persistenceAvailable = false;
+    let saveTimer = null;
+    let saveQueue = Promise.resolve();
+
+    function setStatus(message) {
+      status.textContent = message;
+    }
+
+    function currentSettings() {
+      return {
+        title: document.getElementById("title").value,
+        footer: document.getElementById("footer").value,
+        routes: routes.map((group) => group.map((route) => [...route]))
+      };
+    }
+
+    function validateSettings(settings) {
+      if (!settings || typeof settings !== "object" ||
+          typeof settings.title !== "string" || typeof settings.footer !== "string" ||
+          !Array.isArray(settings.routes) || settings.routes.length !== routes.length) {
+        throw new Error("Cấu trúc cài đặt không hợp lệ.");
+      }
+
+      const validatedRoutes = settings.routes.map((group) => {
+        if (!Array.isArray(group)) throw new Error("Danh sách cung đường không hợp lệ.");
+        return group.map((route) => {
+          if (!Array.isArray(route) || typeof route[0] !== "string" ||
+              !Object.prototype.hasOwnProperty.call(iconLabels, route[1])) {
+            throw new Error("Một cung đường hoặc biểu tượng không hợp lệ.");
+          }
+          return [route[0], route[1]];
+        });
+      });
+      return { title: settings.title, footer: settings.footer, routes: validatedRoutes };
+    }
+
+    function applySettings(settings) {
+      document.getElementById("title").value = settings.title;
+      document.getElementById("footer").value = settings.footer;
+      settings.routes.forEach((group, groupIndex) => {
+        routes[groupIndex].splice(0, routes[groupIndex].length, ...group);
+      });
+    }
+
+    async function writeSettingsToServer(settings) {
+      const response = await fetch("/api/settings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(settings)
+      });
+      if (!response.ok) {
+        throw new Error(`Lưu config/settings.json thất bại (HTTP ${response.status}): ${await response.text()}`);
+      }
+    }
+
+    function saveSettings() {
+      if (!persistenceAvailable) return;
+      if (saveTimer) clearTimeout(saveTimer);
+      const settings = currentSettings();
+      document.getElementById("save-state").textContent = "Đang lưu config/settings.json...";
+      saveTimer = setTimeout(() => {
+        saveQueue = saveQueue
+          .then(() => writeSettingsToServer(settings))
+          .then(() => {
+            document.getElementById("save-state").textContent = "Đã lưu vào config/settings.json.";
+          })
+          .catch((error) => {
+            persistenceAvailable = false;
+            document.getElementById("save-state").textContent = `Không thể lưu cài đặt: ${error.message}`;
+          });
+      }, 250);
+    }
+
+    async function loadSettings() {
+      let legacySettings = null;
+      let migrationWarning = "";
+      try {
+        let legacyStored = null;
+        try {
+          legacyStored = localStorage.getItem(legacyStorageKey);
+        } catch (error) {
+          migrationWarning = `Không thể đọc cài đặt cũ từ trình duyệt: ${error.message}`;
+        }
+
+        const response = await fetch("/api/settings", { cache: "no-store" });
+        let fileSettings = null;
+        if (response.ok) {
+          fileSettings = validateSettings(await response.json());
+        } else if (response.status !== 404) {
+          throw new Error(`Không thể đọc config/settings.json (HTTP ${response.status}): ${await response.text()}`);
+        }
+
+        if (legacyStored) {
+          try {
+            legacySettings = validateSettings(JSON.parse(legacyStored));
+          } catch (error) {
+            migrationWarning = `Không thể chuyển cài đặt cũ sang JSON: ${error.message}`;
+          }
+        }
+
+        if (legacySettings) {
+          await writeSettingsToServer(legacySettings);
+          fileSettings = legacySettings;
+          try {
+            localStorage.removeItem(legacyStorageKey);
+          } catch (error) {
+            migrationWarning = `Đã lưu cài đặt vào repo nhưng không xóa được bản cũ: ${error.message}`;
+          }
+        } else if (!fileSettings) {
+          fileSettings = validateSettings(currentSettings());
+          await writeSettingsToServer(fileSettings);
+        }
+
+        applySettings(fileSettings);
+        persistenceAvailable = true;
+        document.getElementById("save-state").textContent =
+          migrationWarning || (legacySettings
+            ? "Đã chuyển cài đặt cũ sang config/settings.json."
+            : "Đã tải cài đặt từ config/settings.json.");
+      } catch (error) {
+        persistenceAvailable = false;
+        try {
+          const legacyStored = localStorage.getItem(legacyStorageKey);
+          if (legacyStored) {
+            applySettings(validateSettings(JSON.parse(legacyStored)));
+            document.getElementById("save-state").textContent =
+              `Không thể đọc/ghi config/settings.json: ${error.message}. Đã khôi phục cài đặt cũ; hãy xuất JSON, chạy server.py, rồi nhập file JSON để chuyển vào repo.`;
+          } else {
+            document.getElementById("save-state").textContent =
+              `Không thể đọc/ghi config/settings.json: ${error.message}. Hãy chạy python server.py và mở http://127.0.0.1:8765.`;
+          }
+        } catch (legacyError) {
+          document.getElementById("save-state").textContent =
+            `Không thể khôi phục cài đặt: ${legacyError.message}. Hãy chạy python server.py và mở http://127.0.0.1:8765.`;
+        }
+      }
+      renderEditor();
+      render();
+    }
+
+    function prepareBackground() {
+      backgroundCanvas = document.createElement("canvas");
+      backgroundCanvas.width = BASE_WIDTH;
+      backgroundCanvas.height = BASE_HEIGHT;
+      const backgroundContext = backgroundCanvas.getContext("2d", { willReadFrequently: true });
+      backgroundContext.drawImage(background, 0, 0, BASE_WIDTH, BASE_HEIGHT);
+      if (!cleanReferenceHeading) return;
+
+      const width = 730;
+      const header = backgroundContext.getImageData(0, 0, width, 154);
+      const pixels = header.data;
+      const originalPixels = new Uint8ClampedArray(pixels);
+      // Rebuild the text-covered sky from its clean horizontal edges to avoid stripe artifacts.
+      for (let y = 0; y < header.height; y++) {
+        const left = y * width * 4;
+        const right = (y * width + width - 1) * 4;
+        for (let x = 0; x < width; x++) {
+          const ratio = x / (width - 1);
+          const destination = (y * width + x) * 4;
+          for (let channel = 0; channel < 3; channel++) {
+            pixels[destination + channel] = originalPixels[left + channel] * (1 - ratio) + originalPixels[right + channel] * ratio;
+          }
+        }
+      }
+      backgroundContext.putImageData(header, 0, 0);
+    }
+
+    function routeRowHtml(route, groupIndex, routeIndex) {
+      const options = Object.keys(iconLabels).map((icon) =>
+        `<option value="${icon}"${route[1] === icon ? " selected" : ""}>${iconLabels[icon]}</option>`
+      ).join("");
+
+      return `<div class="route-row" data-group="${groupIndex}" data-route="${routeIndex}">
+        <input type="text" aria-label="Tên cung đường" value="${escapeAttribute(route[0])}">
+        <select aria-label="Biểu tượng cung đường">${options}</select>
+        <button class="remove" type="button" aria-label="Xóa cung đường">×</button>
+      </div>`;
+    }
+
+    function escapeAttribute(value) {
+      return String(value).replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[character]);
+    }
+
+    function renderEditor() {
+      document.getElementById("groups").innerHTML = routes.map((group, groupIndex) =>
+        `<section class="route-group">
+          <div class="group-title">${columnNames[groupIndex]}</div>
+          ${group.map((route, routeIndex) => routeRowHtml(route, groupIndex, routeIndex)).join("")}
+          <button class="add-route" type="button" data-add="${groupIndex}">+ Thêm cung đường</button>
+        </section>`
+      ).join("");
+    }
+
+    function setFont(size, weight, style, family = posterFontFamily) {
+      ctx.font = `${style ? style + " " : ""}${weight} ${size}px ${family}`;
+    }
+
+    function wrapText(text, maxWidth) {
+      const words = String(text).trim().split(/\s+/).filter(Boolean);
+      if (!words.length) return [""];
+      const lines = [];
+      let line = "";
+      words.forEach((word) => {
+        const candidate = line ? `${line} ${word}` : word;
+        if (line && ctx.measureText(candidate).width > maxWidth) {
+          lines.push(line);
+          line = word;
+        } else {
+          line = candidate;
+        }
+      });
+      if (line) lines.push(line);
+      return lines;
+    }
+
+    function routeLines(fontSize, boundaries) {
+      setFont(fontSize, 600, "");
+      return routes.map((group, index) => {
+        const left = boundaries[index];
+        const right = boundaries[index + 1];
+        const textWidth = right - left - 48;
+        return group.map(([name, icon]) => ({ name, icon, lines: wrapText(name, textWidth) }));
+      });
+    }
+
+    function totalLines(group) {
+      return group.reduce((count, route) => count + route.lines.length, 0);
+    }
+
+    function roundRect(x, y, width, height, radius) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+    }
+
+    function drawIcon(type, x, y) {
+      ctx.save();
+      ctx.strokeStyle = "#fff";
+      ctx.fillStyle = "#fff";
+      ctx.lineWidth = 1.8;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      if (type === "box") {
+        ctx.strokeRect(x, y + 2, 11, 11);
+      } else if (type === "check") {
+        ctx.beginPath();
+        ctx.moveTo(x + 1, y + 7);
+        ctx.lineTo(x + 4.5, y + 11);
+        ctx.lineTo(x + 12, y + 2);
+        ctx.stroke();
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(x + 2, y + 2);
+        ctx.lineTo(x + 11, y + 11);
+        ctx.moveTo(x + 11, y + 2);
+        ctx.lineTo(x + 2, y + 11);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawCriteria(top) {
+      const boxX = 24;
+      const boxY = top;
+      const boxWidth = 266;
+      const boxHeight = 145;
+
+      ctx.save();
+      roundRect(boxX, boxY, boxWidth, boxHeight, 15);
+      ctx.fillStyle = "#06462e";
+      ctx.fill();
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = "#d8e9d8";
+      ctx.stroke();
+
+      ctx.fillStyle = "#fff";
+      setFont(17, 800, "");
+      ctx.fillText("TIÊU CHÍ XẾP HẠNG:", boxX + 19, boxY + 28);
+      setFont(14, 700, "");
+      ["ĐỘ DÀI CUNG ĐƯỜNG", "ĐỘ CAO TÍCH LŨY", "ĐỘ CAO TỐI ĐA", "TREKKING TRONG NGÀY"].forEach((item, index) => {
+        const y = boxY + 54 + index * 21;
+        ctx.beginPath();
+        ctx.arc(boxX + 24, y - 4, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillText(item, boxX + 36, y);
+      });
+      ctx.restore();
+
+      drawBackpack(245, boxY + 7);
+    }
+
+    function drawBackpack(x, y) {
+      ctx.save();
+      ctx.lineJoin = "round";
+
+      ctx.strokeStyle = "#41271a";
+      ctx.lineWidth = 7;
+      ctx.beginPath();
+      ctx.moveTo(x + 28, y + 41);
+      ctx.bezierCurveTo(x + 7, y + 47, x + 12, y + 105, x + 28, y + 117);
+      ctx.moveTo(x + 102, y + 40);
+      ctx.bezierCurveTo(x + 121, y + 52, x + 118, y + 103, x + 101, y + 117);
+      ctx.stroke();
+
+      roundRect(x + 22, y + 34, 88, 100, 19);
+      ctx.fillStyle = "#c8a77b";
+      ctx.fill();
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = "#54321e";
+      ctx.stroke();
+
+      roundRect(x + 28, y + 10, 78, 20, 10);
+      ctx.fillStyle = "#b98246";
+      ctx.fill();
+      ctx.lineWidth = 4;
+      ctx.stroke();
+      ctx.strokeStyle = "#57351f";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x + 34, y + 20);
+      ctx.lineTo(x + 101, y + 20);
+      ctx.stroke();
+
+      roundRect(x + 35, y + 66, 62, 53, 12);
+      ctx.fillStyle = "#b69366";
+      ctx.fill();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = "#54321e";
+      ctx.stroke();
+      roundRect(x + 46, y + 72, 39, 20, 8);
+      ctx.fillStyle = "#d3b88f";
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "#d68136";
+      ctx.fillRect(x + 59, y + 79, 10, 7);
+      ctx.restore();
+    }
+
+    function drawFooter(text, height) {
+      if (!text.trim()) return;
+      let size = 23;
+      setFont(size, 800, "");
+      while (ctx.measureText(text).width > 1130 && size > 12) {
+        size -= 1;
+        setFont(size, 800, "");
+      }
+      ctx.textAlign = "right";
+      ctx.textBaseline = "alphabetic";
+      ctx.fillStyle = "#fff";
+      ctx.shadowColor = "#063e68";
+      ctx.shadowBlur = 2;
+      ctx.fillText(text, 1260, height - 19);
+      ctx.shadowBlur = 0;
+      ctx.textAlign = "left";
+    }
+
+    function render() {
+      const boundaries = [0, 198, 381, 570, 797, 1036, 1280];
+      let fontSize = 14;
+      let prepared = routeLines(fontSize, boundaries);
+      let maxRows = Math.max(0, ...prepared.map(totalLines));
+      const title = document.getElementById("title").value;
+      const footer = document.getElementById("footer").value;
+      const routeAreaBottom = 435 + maxRows * 18;
+      const firstColumnsBottom = 435 + Math.max(totalLines(prepared[0]), totalLines(prepared[1])) * 18 + 13;
+      const criteriaHeight = 145;
+      const criteriaBottomPadding = 30;
+      const height = Math.max(
+        720,
+        routeAreaBottom + 48,
+        firstColumnsBottom + criteriaHeight + criteriaBottomPadding
+      );
+      const criteriaTop = Math.max(
+        firstColumnsBottom,
+        height - criteriaHeight - criteriaBottomPadding
+      );
+      const outputHeight = Math.ceil(height * OUTPUT_SCALE);
+
+      canvas.width = OUTPUT_WIDTH;
+      canvas.height = outputHeight;
+      ctx.setTransform(OUTPUT_SCALE, 0, 0, OUTPUT_SCALE, 0, 0);
+      ctx.clearRect(0, 0, BASE_WIDTH, height);
+
+      if (backgroundReady && backgroundCanvas) {
+        ctx.drawImage(backgroundCanvas, 0, 0);
+      } else {
+        const fallback = ctx.createLinearGradient(0, 0, 0, 418);
+        fallback.addColorStop(0, "#bde6f4");
+        fallback.addColorStop(1, "#82c5df");
+        ctx.fillStyle = fallback;
+        ctx.fillRect(0, 0, BASE_WIDTH, 418);
+      }
+
+      ctx.fillStyle = "#064526";
+      ctx.textBaseline = "alphabetic";
+      let subtitleSize = 27;
+      const subtitle = "XẾP HẠNG CÁC CUNG ĐƯỜNG TREKKING";
+      setFont(subtitleSize, 800, "");
+      while (ctx.measureText(subtitle).width > 680 && subtitleSize > 16) {
+        subtitleSize -= 1;
+        setFont(subtitleSize, 800, "");
+      }
+      ctx.fillText(subtitle, 41, 52);
+
+      let titleSize = 78;
+      const displayTitle = title.toLocaleUpperCase("vi-VN");
+      setFont(titleSize, 800, "italic");
+      while (ctx.measureText(displayTitle).width > 680 && titleSize > 24) {
+        titleSize -= 2;
+        setFont(titleSize, 800, "italic");
+      }
+      ctx.fillText(displayTitle, 34, 133);
+
+      const panel = ctx.createLinearGradient(0, 418, 0, height);
+      panel.addColorStop(0, "#086ba4");
+      panel.addColorStop(1, "#0878ad");
+      ctx.fillStyle = panel;
+      ctx.fillRect(0, 418, BASE_WIDTH, height - 418);
+
+      ctx.save();
+      ctx.strokeStyle = "rgba(255,255,255,.75)";
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([2, 3]);
+      [198, 381, 570, 797, 1036].forEach((x) => {
+        ctx.beginPath();
+        ctx.moveTo(x, 426);
+        ctx.lineTo(x, Math.max(height - 43, 660));
+        ctx.stroke();
+      });
+      ctx.restore();
+
+      prepared = routeLines(fontSize, boundaries);
+      ctx.fillStyle = "#fff";
+      setFont(fontSize, 600, "");
+      const lineHeight = 18;
+      prepared.forEach((group, groupIndex) => {
+        const left = boundaries[groupIndex];
+        const textX = left + 34;
+        const iconX = left + 17;
+        let y = 444;
+        group.forEach((route) => {
+          drawIcon(route.icon, iconX, y - 12);
+          route.lines.forEach((line, lineIndex) => {
+            ctx.fillText(line, lineIndex === 0 ? textX : textX, y);
+            y += lineHeight;
+          });
+        });
+      });
+
+      drawCriteria(criteriaTop);
+      drawFooter(footer, height);
+      document.getElementById("dimensions").textContent = `${OUTPUT_WIDTH} × ${outputHeight} px`;
+    }
+
+    document.getElementById("title").addEventListener("input", () => {
+      render();
+      saveSettings();
+    });
+    document.getElementById("footer").addEventListener("input", () => {
+      render();
+      saveSettings();
+    });
+
+    document.getElementById("groups").addEventListener("input", (event) => {
+      const row = event.target.closest(".route-row");
+      if (!row || event.target.tagName !== "INPUT") return;
+      routes[Number(row.dataset.group)][Number(row.dataset.route)][0] = event.target.value;
+      render();
+      saveSettings();
+    });
+
+    document.getElementById("groups").addEventListener("change", (event) => {
+      const row = event.target.closest(".route-row");
+      if (!row || event.target.tagName !== "SELECT") return;
+      routes[Number(row.dataset.group)][Number(row.dataset.route)][1] = event.target.value;
+      render();
+      saveSettings();
+    });
+
+    document.getElementById("groups").addEventListener("click", (event) => {
+      const addButton = event.target.closest("[data-add]");
+      if (addButton) {
+        const groupIndex = Number(addButton.dataset.add);
+        routes[groupIndex].push(["Cung đường mới", "box"]);
+        renderEditor();
+        render();
+        saveSettings();
+        const rows = document.querySelectorAll(`.route-row[data-group="${groupIndex}"] input`);
+        rows[rows.length - 1].focus();
+        rows[rows.length - 1].select();
+        return;
+      }
+
+      const removeButton = event.target.closest(".remove");
+      if (removeButton) {
+        const row = removeButton.closest(".route-row");
+        routes[Number(row.dataset.group)].splice(Number(row.dataset.route), 1);
+        renderEditor();
+        render();
+        saveSettings();
+      }
+    });
+
+    document.getElementById("choose-background").addEventListener("click", () => {
+      document.getElementById("background-file").click();
+    });
+
+    document.getElementById("export-settings").addEventListener("click", () => {
+      const file = new Blob([JSON.stringify(currentSettings(), null, 2)], { type: "application/json" });
+      const link = document.createElement("a");
+      link.download = "trekking-settings.json";
+      link.href = URL.createObjectURL(file);
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    });
+
+    document.getElementById("import-settings").addEventListener("click", () => {
+      document.getElementById("settings-file").click();
+    });
+
+    document.getElementById("settings-file").addEventListener("change", async (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      try {
+        const settings = validateSettings(JSON.parse(await file.text()));
+        applySettings(settings);
+        renderEditor();
+        render();
+        if (persistenceAvailable) {
+          await writeSettingsToServer(settings);
+          document.getElementById("save-state").textContent = "Đã nhập và lưu vào config/settings.json.";
+        } else {
+          document.getElementById("save-state").textContent =
+            "Đã nhập JSON. Để lưu vào repo, hãy mở editor bằng python server.py.";
+        }
+      } catch (error) {
+        document.getElementById("save-state").textContent = `Không thể nhập file JSON: ${error.message}`;
+      } finally {
+        event.target.value = "";
+      }
+    });
+
+    document.getElementById("background-file").addEventListener("change", (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      if (backgroundObjectUrl) URL.revokeObjectURL(backgroundObjectUrl);
+      backgroundObjectUrl = URL.createObjectURL(file);
+      cleanReferenceHeading = file.name.toLowerCase() === referenceImageName.toLowerCase();
+      background.src = backgroundObjectUrl;
+    });
+
+    document.getElementById("download").addEventListener("click", () => {
+      try {
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            setStatus("Không tạo được ảnh PNG. Hãy thử chọn lại ảnh nền.");
+            return;
+          }
+          const link = document.createElement("a");
+          link.download = "trekking-infographic.png";
+          link.href = URL.createObjectURL(blob);
+          link.click();
+          setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+          setStatus("Đã tải trekking-infographic.png");
+        }, "image/png");
+      } catch (error) {
+        if (error.name === "SecurityError") {
+          setStatus("Trình duyệt chặn xuất ảnh nền cục bộ. Hãy chọn lại JPG bằng nút “Chọn ảnh nền”, rồi tải PNG.");
+          return;
+        }
+        setStatus(`Không thể tạo ảnh: ${error.message}`);
+      }
+    });
+
+    background.onload = () => {
+      backgroundReady = true;
+      prepareBackground();
+      setStatus("");
+      render();
+    };
+    background.onerror = () => {
+      backgroundReady = false;
+      backgroundCanvas = null;
+      setStatus("Chưa tải được ảnh nền. Hãy dùng “Chọn ảnh nền” và chọn file JPG tham chiếu.");
+      render();
+    };
+    background.src = `./${referenceImageName}`;
+    loadSettings();
+    renderEditor();
+    render();
+  </script>
+</body>
+</html>
