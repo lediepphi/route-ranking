@@ -1,6 +1,15 @@
 {
   "title": "MIỀN NAM và tây nguyên",
-  "footer": " HTX",
+  "footer": " TREKKING HÀNH TRÌNH XANH",
+  "appearance": {
+    "subtitleFontSize": 32,
+    "titleFontSize": 81,
+    "routeFontSize": 18,
+    "levelLabelFontSize": 21,
+    "criteriaLabelVertical": 0,
+    "criteriaLabelHorizontal": 0,
+    "criteriaLabelScale": 117
+  },
   "routes": [
     [
       [

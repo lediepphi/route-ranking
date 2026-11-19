@@ -41,6 +41,16 @@ const BASE_WIDTH = 1280;
 const OUTPUT_WIDTH = 2160;
 const OUTPUT_SCALE = OUTPUT_WIDTH / BASE_WIDTH;
 const TOP_HEIGHT = 418;
+const CRITERIA_LABEL_BASE_WIDTH = 320;
+const APPEARANCE_CONTROLS = [
+  { key: "subtitleFontSize", inputId: "subtitle-font-size", outputId: "subtitle-font-size-value", defaultValue: 27, min: 16, max: 48, unit: "px" },
+  { key: "titleFontSize", inputId: "title-font-size", outputId: "title-font-size-value", defaultValue: 78, min: 24, max: 100, unit: "px" },
+  { key: "routeFontSize", inputId: "route-font-size", outputId: "route-font-size-value", defaultValue: 14, min: 9, max: 24, unit: "px" },
+  { key: "levelLabelFontSize", inputId: "level-label-font-size", outputId: "level-label-font-size-value", defaultValue: 16, min: 10, max: 30, unit: "px" },
+  { key: "criteriaLabelVertical", inputId: "criteria-label-vertical", outputId: "criteria-label-vertical-value", defaultValue: 30, min: 0, max: 200, unit: "px" },
+  { key: "criteriaLabelHorizontal", inputId: "criteria-label-horizontal", outputId: "criteria-label-horizontal-value", defaultValue: 14, min: 0, max: 400, unit: "px" },
+  { key: "criteriaLabelScale", inputId: "criteria-label-scale", outputId: "criteria-label-scale-value", defaultValue: 100, min: 50, max: 200, unit: "%" }
+];
 const poster = document.getElementById("poster");
 const posterWrap = document.querySelector(".canvas-wrap");
 const posterBottom = document.getElementById("poster-bottom");
@@ -125,8 +135,56 @@ function currentSettings() {
   return {
     title: document.getElementById("title").value,
     footer: document.getElementById("footer").value,
-    routes: routes.map((group) => group.map((route) => [...route]))
+    routes: routes.map((group) => group.map((route) => [...route])),
+    appearance: currentAppearance()
   };
+}
+
+function validateAppearance(appearance) {
+  if (appearance === undefined) return Object.fromEntries(
+    APPEARANCE_CONTROLS.map(({ key, defaultValue }) => [key, defaultValue])
+  );
+  if (!appearance || typeof appearance !== "object" || Array.isArray(appearance)) {
+    throw new Error("Cấu hình giao diện không hợp lệ.");
+  }
+
+  const allowedKeys = new Set(APPEARANCE_CONTROLS.map(({ key }) => key));
+  if (Object.keys(appearance).some((key) => !allowedKeys.has(key))) {
+    throw new Error("Cấu hình giao diện chứa thuộc tính không được hỗ trợ.");
+  }
+
+  const validated = {};
+  APPEARANCE_CONTROLS.forEach(({ key, defaultValue, min, max }) => {
+    const value = Object.prototype.hasOwnProperty.call(appearance, key)
+      ? appearance[key]
+      : defaultValue;
+    if (!Number.isInteger(value) || value < min || value > max) {
+      throw new Error(`Giá trị ${key} phải là số nguyên từ ${min} đến ${max}.`);
+    }
+    validated[key] = value;
+  });
+  return validated;
+}
+
+function currentAppearance() {
+  const appearance = {};
+  APPEARANCE_CONTROLS.forEach(({ key, inputId }) => {
+    appearance[key] = Number(document.getElementById(inputId).value);
+  });
+  return validateAppearance(appearance);
+}
+
+function applyAppearance(appearance) {
+  APPEARANCE_CONTROLS.forEach(({ key, inputId, outputId, unit }) => {
+    const value = appearance[key];
+    document.getElementById(inputId).value = String(value);
+    document.getElementById(outputId).value = `${value} ${unit}`;
+  });
+  poster.style.setProperty("--poster-route-font-size", `${appearance.routeFontSize}px`);
+  poster.style.setProperty("--poster-level-font-size", `${appearance.levelLabelFontSize}px`);
+  criteriaLabel.style.bottom = `${appearance.criteriaLabelVertical}px`;
+  criteriaLabel.style.left = `${appearance.criteriaLabelHorizontal}px`;
+  criteriaLabel.style.width = `${CRITERIA_LABEL_BASE_WIDTH * appearance.criteriaLabelScale / 100}px`;
 }
 
 function validateSettings(settings) {
@@ -146,12 +204,18 @@ function validateSettings(settings) {
       return [route[0], route[1]];
     });
   });
-  return { title: settings.title, footer: settings.footer, routes: validatedRoutes };
+  return {
+    title: settings.title,
+    footer: settings.footer,
+    routes: validatedRoutes,
+    appearance: validateAppearance(settings.appearance)
+  };
 }
 
 function applySettings(settings) {
   document.getElementById("title").value = settings.title;
   document.getElementById("footer").value = settings.footer;
+  applyAppearance(settings.appearance);
   settings.routes.forEach((group, groupIndex) => {
     routes[groupIndex].splice(0, routes[groupIndex].length, ...group);
   });
@@ -286,24 +350,26 @@ function fitHeading(element, text, startingSize, minimumSize, maxWidth) {
   let size = startingSize;
   element.style.fontSize = `${size}px`;
   while (element.scrollWidth > maxWidth && size > minimumSize) {
-    size -= 2;
+    size = Math.max(minimumSize, size - 1);
     element.style.fontSize = `${size}px`;
   }
 }
 
 function render() {
+  const appearance = currentAppearance();
+  applyAppearance(appearance);
   fitHeading(
     document.getElementById("poster-subtitle"),
     "XẾP HẠNG CÁC CUNG ĐƯỜNG TREKKING",
-    27,
-    16,
+    appearance.subtitleFontSize,
+    APPEARANCE_CONTROLS[0].min,
     680
   );
   fitHeading(
     document.getElementById("poster-title"),
     document.getElementById("title").value.toLocaleUpperCase("vi-VN"),
-    78,
-    24,
+    appearance.titleFontSize,
+    APPEARANCE_CONTROLS[1].min,
     600
   );
   document.getElementById("poster-footer").textContent = document.getElementById("footer").value;
@@ -435,6 +501,7 @@ async function renderPosterPng() {
 
     const firstLevelLabel = posterLevelLabels.querySelector(".poster-level-label");
     const levelStyle = getComputedStyle(firstLevelLabel);
+    const levelLineHeight = parseFloat(levelStyle.lineHeight) || 18;
     context.font = canvasFont(levelStyle);
     context.fillStyle = levelStyle.color;
     context.textAlign = "center";
@@ -443,7 +510,7 @@ async function renderPosterPng() {
     context.shadowBlur = 2;
     levelLabels.forEach(({ name, x, y }) => {
       context.fillText("CẤP ĐỘ", x, y);
-      context.fillText(name, x, y + 18);
+      context.fillText(name, x, y + levelLineHeight);
     });
     context.shadowBlur = 0;
     context.textAlign = "left";
@@ -535,6 +602,11 @@ document.getElementById("title").addEventListener("input", () => {
   saveSettings();
 });
 document.getElementById("footer").addEventListener("input", () => {
+  render();
+  saveSettings();
+});
+document.getElementById("appearance-controls").addEventListener("input", (event) => {
+  if (!APPEARANCE_CONTROLS.some(({ inputId }) => inputId === event.target.id)) return;
   render();
   saveSettings();
 });

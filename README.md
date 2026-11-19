@@ -6,6 +6,7 @@ Run `python server.py` and open `http://127.0.0.1:8765`.
 - Input images are stored in `assets/`; the active top artwork is `assets/6peaks.png`.
 - Six difficulty labels are placed over the peaks.
 - The criteria label is `assets/criteria-label.png`; its edge-connected white background is made transparent for the preview and PNG export.
+- Seven appearance sliders adjust heading, route, and level-label sizes plus the criteria label's position and scale; values are saved with the poster settings.
 - The poster preview uses HTML/CSS; PNG download uses a separate Canvas export renderer and is 2160 pixels wide.
 - Route columns, editable title, and footer are generated from `config/settings.json`.
 - Styles are in `styles/main.css`.

@@ -10,6 +10,24 @@ CONFIG_DIR = ROOT / "config"
 SETTINGS_FILE = CONFIG_DIR / "settings.json"
 VALID_ICONS = {"box", "check", "x"}
 MAX_REQUEST_SIZE = 1_000_000
+DEFAULT_APPEARANCE = {
+    "subtitleFontSize": 27,
+    "titleFontSize": 78,
+    "routeFontSize": 14,
+    "levelLabelFontSize": 16,
+    "criteriaLabelVertical": 30,
+    "criteriaLabelHorizontal": 14,
+    "criteriaLabelScale": 100,
+}
+APPEARANCE_RANGES = {
+    "subtitleFontSize": (16, 48),
+    "titleFontSize": (24, 100),
+    "routeFontSize": (9, 24),
+    "levelLabelFontSize": (10, 30),
+    "criteriaLabelVertical": (0, 200),
+    "criteriaLabelHorizontal": (0, 400),
+    "criteriaLabelScale": (50, 200),
+}
 
 
 def validate_settings(value):
@@ -19,12 +37,25 @@ def validate_settings(value):
     title = value.get("title")
     footer = value.get("footer")
     groups = value.get("routes")
+    appearance = value.get("appearance", {})
     if not isinstance(title, str) or len(title) > 5000:
         raise ValueError("Title must be a string of at most 5000 characters.")
     if not isinstance(footer, str) or len(footer) > 5000:
         raise ValueError("Footer must be a string of at most 5000 characters.")
     if not isinstance(groups, list) or len(groups) != 6:
         raise ValueError("Routes must contain exactly six groups.")
+    if not isinstance(appearance, dict):
+        raise ValueError("Appearance settings must be an object.")
+    if set(appearance) - set(DEFAULT_APPEARANCE):
+        raise ValueError("Appearance settings contain unsupported properties.")
+
+    clean_appearance = {}
+    for key, default in DEFAULT_APPEARANCE.items():
+        setting = appearance.get(key, default)
+        minimum, maximum = APPEARANCE_RANGES[key]
+        if type(setting) is not int or not minimum <= setting <= maximum:
+            raise ValueError(f"{key} must be an integer between {minimum} and {maximum}.")
+        clean_appearance[key] = setting
 
     routes = []
     for group in groups:
@@ -44,7 +75,12 @@ def validate_settings(value):
             clean_group.append([route[0], route[1]])
         routes.append(clean_group)
 
-    return {"title": title, "footer": footer, "routes": routes}
+    return {
+        "title": title,
+        "footer": footer,
+        "routes": routes,
+        "appearance": clean_appearance,
+    }
 
 
 class Handler(SimpleHTTPRequestHandler):
