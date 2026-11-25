@@ -43,13 +43,13 @@ const OUTPUT_SCALE = OUTPUT_WIDTH / BASE_WIDTH;
 const TOP_HEIGHT = 418;
 const CRITERIA_LABEL_BASE_WIDTH = 320;
 const APPEARANCE_CONTROLS = [
-  { key: "subtitleFontSize", inputId: "subtitle-font-size", outputId: "subtitle-font-size-value", defaultValue: 27, min: 16, max: 48, unit: "px" },
-  { key: "titleFontSize", inputId: "title-font-size", outputId: "title-font-size-value", defaultValue: 78, min: 24, max: 100, unit: "px" },
-  { key: "routeFontSize", inputId: "route-font-size", outputId: "route-font-size-value", defaultValue: 14, min: 9, max: 24, unit: "px" },
-  { key: "levelLabelFontSize", inputId: "level-label-font-size", outputId: "level-label-font-size-value", defaultValue: 16, min: 10, max: 30, unit: "px" },
-  { key: "criteriaLabelVertical", inputId: "criteria-label-vertical", outputId: "criteria-label-vertical-value", defaultValue: 30, min: 0, max: 200, unit: "px" },
-  { key: "criteriaLabelHorizontal", inputId: "criteria-label-horizontal", outputId: "criteria-label-horizontal-value", defaultValue: 14, min: 0, max: 400, unit: "px" },
-  { key: "criteriaLabelScale", inputId: "criteria-label-scale", outputId: "criteria-label-scale-value", defaultValue: 100, min: 50, max: 200, unit: "%" }
+  { key: "subtitleFontSize", inputId: "subtitle-font-size", outputId: "subtitle-font-size-value", defaultValue: 32, min: 16, max: 48, unit: "px" },
+  { key: "titleFontSize", inputId: "title-font-size", outputId: "title-font-size-value", defaultValue: 81, min: 24, max: 100, unit: "px" },
+  { key: "routeFontSize", inputId: "route-font-size", outputId: "route-font-size-value", defaultValue: 18, min: 9, max: 24, unit: "px" },
+  { key: "levelLabelFontSize", inputId: "level-label-font-size", outputId: "level-label-font-size-value", defaultValue: 21, min: 10, max: 30, unit: "px" },
+  { key: "criteriaLabelVertical", inputId: "criteria-label-vertical", outputId: "criteria-label-vertical-value", defaultValue: 12, min: 0, max: 200, unit: "px" },
+  { key: "criteriaLabelHorizontal", inputId: "criteria-label-horizontal", outputId: "criteria-label-horizontal-value", defaultValue: 38, min: 0, max: 400, unit: "px" },
+  { key: "criteriaLabelScale", inputId: "criteria-label-scale", outputId: "criteria-label-scale-value", defaultValue: 91, min: 50, max: 200, unit: "%" }
 ];
 const poster = document.getElementById("poster");
 const posterWrap = document.querySelector(".canvas-wrap");
@@ -180,6 +180,8 @@ function applyAppearance(appearance) {
     document.getElementById(inputId).value = String(value);
     document.getElementById(outputId).value = `${value} ${unit}`;
   });
+  poster.style.setProperty("--poster-subtitle-font-size", `${appearance.subtitleFontSize}px`);
+  poster.style.setProperty("--poster-title-font-size", `${appearance.titleFontSize}px`);
   poster.style.setProperty("--poster-route-font-size", `${appearance.routeFontSize}px`);
   poster.style.setProperty("--poster-level-font-size", `${appearance.levelLabelFontSize}px`);
   criteriaLabel.style.bottom = `${appearance.criteriaLabelVertical}px`;
@@ -442,13 +444,33 @@ function wrapCanvasText(context, text, maxWidth) {
   const words = String(text).trim().split(/\s+/).filter(Boolean);
   const lines = [];
   let line = "";
+  const pushCharacterWrappedWord = (word) => {
+    for (const character of word) {
+      const candidate = line + character;
+      if (line && context.measureText(candidate).width > maxWidth) {
+        lines.push(line);
+        line = character;
+      } else {
+        line = candidate;
+      }
+    }
+  };
+
   words.forEach((word) => {
-    const candidate = line ? `${line} ${word}` : word;
-    if (line && context.measureText(candidate).width > maxWidth) {
-      lines.push(line);
-      line = word;
+    if (context.measureText(word).width > maxWidth) {
+      if (line) {
+        lines.push(line);
+        line = "";
+      }
+      pushCharacterWrappedWord(word);
     } else {
-      line = candidate;
+      const candidate = line ? `${line} ${word}` : word;
+      if (line && context.measureText(candidate).width > maxWidth) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = candidate;
+      }
     }
   });
   if (line) lines.push(line);
@@ -496,8 +518,11 @@ async function renderPosterPng() {
       context.font = canvasFont(style);
       context.fillStyle = style.color;
       context.textBaseline = "top";
+      context.shadowColor = "rgba(255,255,255,.72)";
+      context.shadowBlur = 3;
       context.fillText(element.textContent, rect.x, rect.y);
     }
+    context.shadowBlur = 0;
 
     const firstLevelLabel = posterLevelLabels.querySelector(".poster-level-label");
     const levelStyle = getComputedStyle(firstLevelLabel);
@@ -517,7 +542,7 @@ async function renderPosterPng() {
 
     const bottomRect = relativeRect(posterBottom, posterRect);
     const panel = context.createLinearGradient(0, bottomRect.y, 0, baseHeight);
-    panel.addColorStop(0, "#086ba4");
+    panel.addColorStop(0, "#075f96");
     panel.addColorStop(1, "#0878ad");
     context.fillStyle = panel;
     context.fillRect(0, bottomRect.y, BASE_WIDTH, baseHeight - bottomRect.y);

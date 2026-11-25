@@ -184,12 +184,12 @@
     ]
   ],
   "appearance": {
-    "subtitleFontSize": 32,
+    "subtitleFontSize": 37,
     "titleFontSize": 81,
-    "routeFontSize": 18,
+    "routeFontSize": 19,
     "levelLabelFontSize": 21,
     "criteriaLabelVertical": 0,
-    "criteriaLabelHorizontal": 38,
-    "criteriaLabelScale": 91
+    "criteriaLabelHorizontal": 26,
+    "criteriaLabelScale": 109
   }
 }

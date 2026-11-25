@@ -73,17 +73,20 @@ input:focus, select:focus, button:focus-visible {
 
 .appearance-controls {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 11px;
   margin-bottom: 16px;
   padding: 12px;
-  border: 1px solid #dce3e7;
+  border: 1px solid #d8e2df;
   border-radius: 8px;
-  background: #fbfcfd;
+  background: linear-gradient(180deg, #fbfcfc, #f4f8f6);
 }
 
 .appearance-controls h2 {
   margin: 0;
+  grid-column: 1 / -1;
   font-size: 14px;
+  color: #123d32;
 }
 
 .slider-control {
@@ -213,7 +216,7 @@ button.primary:hover { background: #0e4939; }
   overflow: hidden;
   background: #0878ad;
   color: #fff;
-  font-family: "Tahoma", "Segoe UI", Arial, sans-serif;
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
 }
 
 .poster-top {
@@ -238,14 +241,17 @@ button.primary:hover { background: #0e4939; }
 
 .poster-level-label {
   position: absolute;
-  width: 170px;
+  width: 184px;
   transform: translateX(-50%);
   color: #064526;
   font-size: var(--poster-level-font-size, 16px);
   font-weight: 800;
-  line-height: 1.125;
+  line-height: 1.08;
   text-align: center;
-  text-shadow: 0 1px 2px rgba(255,255,255,.9), 0 0 4px rgba(255,255,255,.75);
+  letter-spacing: .15px;
+  text-shadow:
+    0 1px 2px rgba(255,255,255,.95),
+    0 0 5px rgba(255,255,255,.92);
   white-space: nowrap;
 }
 
@@ -254,29 +260,31 @@ button.primary:hover { background: #0e4939; }
 .poster-heading {
   position: absolute;
   z-index: 2;
-  top: 16px;
-  left: 34px;
-  max-width: 600px;
+  top: 14px;
+  left: 38px;
+  max-width: 660px;
   color: #064526;
   pointer-events: none;
-  text-shadow: 0 1px 1px rgba(255,255,255,.35);
+  text-shadow: 0 2px 3px rgba(255,255,255,.72);
 }
 
 .poster-subtitle {
   display: inline-block;
-  margin-bottom: 5px;
-  font-size: 27px;
+  margin-bottom: 7px;
+  font-size: var(--poster-subtitle-font-size, 32px);
   font-weight: 800;
   line-height: 1.15;
+  letter-spacing: .45px;
   white-space: nowrap;
 }
 
 .poster-title {
   display: inline-block;
-  font-size: 78px;
+  font-size: var(--poster-title-font-size, 81px);
   font-style: italic;
   font-weight: 800;
-  line-height: .98;
+  line-height: 1;
+  letter-spacing: -.8px;
   white-space: nowrap;
 }
 
@@ -284,19 +292,22 @@ button.primary:hover { background: #0e4939; }
   position: relative;
   min-height: 302px;
   overflow: hidden;
-  background: linear-gradient(180deg, #086ba4, #0878ad);
+  border-top: 3px solid rgba(183, 221, 207, .42);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.025), rgba(0,0,0,.025)),
+    linear-gradient(180deg, #075f96, #0878ad);
 }
 
 .poster-columns {
   display: grid;
   grid-template-columns: 198fr 183fr 189fr 227fr 239fr 244fr;
-  padding-top: 26px;
+  padding-top: 24px;
 }
 
 .poster-column {
   min-width: 0;
-  padding: 0 12px 0 17px;
-  border-right: 1.5px dotted rgba(255,255,255,.8);
+  padding: 0 13px 12px 17px;
+  border-right: 1.5px dotted rgba(224,244,249,.72);
 }
 
 .poster-column:last-child { border-right: 0; }
@@ -309,10 +320,11 @@ button.primary:hover { background: #0e4939; }
 .poster-route {
   display: flex;
   align-items: flex-start;
-  gap: 5px;
+  gap: 6px;
+  margin-bottom: 5px;
   font-size: var(--poster-route-font-size, 14px);
-  font-weight: 600;
-  line-height: 1.2857;
+  font-weight: 650;
+  line-height: 1.38;
   overflow-wrap: anywhere;
 }
 
@@ -342,24 +354,25 @@ button.primary:hover { background: #0e4939; }
 
 .criteria-label {
   position: absolute;
-  bottom: 30px;
-  left: 14px;
+  bottom: 12px;
+  left: 38px;
   display: block;
   width: 320px;
   height: auto;
+  filter: drop-shadow(0 3px 2px rgba(0, 62, 104, .18));
 }
 
 .poster-footer {
   position: absolute;
-  right: 20px;
-  bottom: 17px;
-  max-width: 68%;
+  right: 24px;
+  bottom: 14px;
+  max-width: 58%;
   color: #fff;
-  font-size: 23px;
+  font-size: 21px;
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.2;
   text-align: right;
-  text-shadow: 0 1px 2px #063e68;
+  text-shadow: 0 2px 3px #063e68;
 }
 
 .hint, #status {
@@ -380,5 +393,7 @@ button.primary:hover { background: #0e4939; }
 @media (max-width: 520px) {
   main { padding: 10px; }
   .editor, .preview { padding: 12px; }
+  .appearance-controls { grid-template-columns: 1fr; }
+  .appearance-controls h2 { grid-column: 1; }
   .route-row { grid-template-columns: minmax(0, 1fr) 98px 34px; }
 }
