@@ -1,6 +1,6 @@
 {
   "title": "MIỀN NAM và tây nguyên",
-  "footer": " TREKKING HÀNH TRÌNH XANH",
+  "footer": "CHÚ BÁO ĐI LẠC",
   "routes": [
     [
       [
@@ -188,8 +188,8 @@
     "titleFontSize": 81,
     "routeFontSize": 19,
     "levelLabelFontSize": 21,
-    "criteriaLabelVertical": 0,
-    "criteriaLabelHorizontal": 26,
+    "criteriaLabelVertical": -12,
+    "criteriaLabelHorizontal": 35,
     "criteriaLabelScale": 109
   }
 }

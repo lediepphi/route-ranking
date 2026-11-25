@@ -47,7 +47,7 @@ const APPEARANCE_CONTROLS = [
   { key: "titleFontSize", inputId: "title-font-size", outputId: "title-font-size-value", defaultValue: 81, min: 24, max: 100, unit: "px" },
   { key: "routeFontSize", inputId: "route-font-size", outputId: "route-font-size-value", defaultValue: 18, min: 9, max: 24, unit: "px" },
   { key: "levelLabelFontSize", inputId: "level-label-font-size", outputId: "level-label-font-size-value", defaultValue: 21, min: 10, max: 30, unit: "px" },
-  { key: "criteriaLabelVertical", inputId: "criteria-label-vertical", outputId: "criteria-label-vertical-value", defaultValue: 12, min: 0, max: 200, unit: "px" },
+  { key: "criteriaLabelVertical", inputId: "criteria-label-vertical", outputId: "criteria-label-vertical-value", defaultValue: -12, min: -40, max: 200, unit: "px" },
   { key: "criteriaLabelHorizontal", inputId: "criteria-label-horizontal", outputId: "criteria-label-horizontal-value", defaultValue: 38, min: 0, max: 400, unit: "px" },
   { key: "criteriaLabelScale", inputId: "criteria-label-scale", outputId: "criteria-label-scale-value", defaultValue: 91, min: 50, max: 200, unit: "%" }
 ];
