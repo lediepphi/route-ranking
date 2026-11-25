@@ -15,7 +15,7 @@ DEFAULT_APPEARANCE = {
     "titleFontSize": 78,
     "routeFontSize": 14,
     "levelLabelFontSize": 16,
-    "criteriaLabelVertical": 30,
+    "criteriaLabelVertical": -12,
     "criteriaLabelHorizontal": 14,
     "criteriaLabelScale": 100,
 }
@@ -24,7 +24,7 @@ APPEARANCE_RANGES = {
     "titleFontSize": (24, 100),
     "routeFontSize": (9, 24),
     "levelLabelFontSize": (10, 30),
-    "criteriaLabelVertical": (0, 200),
+    "criteriaLabelVertical": (-40, 200),
     "criteriaLabelHorizontal": (0, 400),
     "criteriaLabelScale": (50, 200),
 }

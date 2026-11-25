@@ -347,33 +347,13 @@ function renderEditor() {
   ).join("");
 }
 
-function fitHeading(element, text, startingSize, minimumSize, maxWidth) {
-  element.textContent = text;
-  let size = startingSize;
-  element.style.fontSize = `${size}px`;
-  while (element.scrollWidth > maxWidth && size > minimumSize) {
-    size = Math.max(minimumSize, size - 1);
-    element.style.fontSize = `${size}px`;
-  }
-}
-
 function render() {
   const appearance = currentAppearance();
   applyAppearance(appearance);
-  fitHeading(
-    document.getElementById("poster-subtitle"),
-    "XẾP HẠNG CÁC CUNG ĐƯỜNG TREKKING",
-    appearance.subtitleFontSize,
-    APPEARANCE_CONTROLS[0].min,
-    680
-  );
-  fitHeading(
-    document.getElementById("poster-title"),
-    document.getElementById("title").value.toLocaleUpperCase("vi-VN"),
-    appearance.titleFontSize,
-    APPEARANCE_CONTROLS[1].min,
-    600
-  );
+  document.getElementById("poster-subtitle").textContent =
+    "XẾP HẠNG CÁC CUNG ĐƯỜNG TREKKING";
+  document.getElementById("poster-title").textContent =
+    document.getElementById("title").value.toLocaleUpperCase("vi-VN");
   document.getElementById("poster-footer").textContent = document.getElementById("footer").value;
   posterLevelLabels.replaceChildren();
   levelLabels.forEach(({ name, x, y }) => {

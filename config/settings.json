@@ -5,187 +5,187 @@
     [
       [
         "Rừng Phước Bửu",
-        "check"
+        "box"
       ],
       [
         "Rừng Cát Tiên",
-        "check"
+        "box"
       ],
       [
         "Chư Blứk - Hố Da",
-        "check"
+        "box"
       ]
     ],
     [
       [
         "Tương Kỳ",
-        "check"
+        "box"
       ],
       [
         "Minh Đạm",
-        "check"
+        "box"
       ],
       [
         "Thị Vải",
-        "check"
+        "box"
       ],
       [
         "Tóc Tiên",
-        "check"
+        "box"
       ],
       [
         "Núi Dinh",
-        "check"
+        "box"
       ]
     ],
     [
       [
         "Thác Phi Liêng",
-        "check"
+        "box"
       ],
       [
         "Thác Mưa Bay",
-        "check"
+        "box"
       ],
       [
         "Núi Tà Cú",
-        "check"
+        "box"
       ],
       [
         "Laan - Tuyệt Tình Cốc",
-        "check"
+        "box"
       ],
       [
         "Lombur - Con đường lương thực",
-        "check"
+        "box"
       ],
       [
         "Thác Triệu Hải",
-        "check"
+        "box"
       ],
       [
         "Thác K50",
-        "check"
+        "box"
       ],
       [
         "Thác Siu Puông",
-        "check"
+        "box"
       ],
       [
         "VQG Bù Gia Mập",
-        "check"
+        "box"
       ]
     ],
     [
       [
         "Hồ Tiên - La Ngâu",
-        "check"
+        "box"
       ],
       [
         "Masara - Đồi Cỏ Hồng",
-        "check"
+        "box"
       ],
       [
         "Chư Nâm - Chư Đăng Ya",
-        "check"
+        "box"
       ],
       [
         "Cực Đông - Mũi Đôi",
-        "check"
+        "box"
       ],
       [
         "Núi Cấm",
-        "check"
+        "box"
       ],
       [
         "Núi Langbiang - Đồi Radar",
-        "check"
+        "box"
       ],
       [
         "Núi Đại Bình",
-        "check"
+        "box"
       ],
       [
         "Núi Chứa Chan",
-        "check"
+        "box"
       ],
       [
         "Thác Tàm Thàm",
-        "check"
+        "box"
       ],
       [
         "Mộng Đào Nguyên",
-        "check"
+        "box"
       ],
       [
         "Thảo Nguyên Pal Sol",
-        "check"
+        "box"
       ]
     ],
     [
       [
         "Tà Năng - Đồi Lính - Phan Dũng",
-        "check"
+        "box"
       ],
       [
         "Đỉnh Tà Đùng",
-        "check"
+        "box"
       ],
       [
         "3 Đỉnh Lomburr - Thác Lâm An",
-        "check"
+        "box"
       ],
       [
         "Ngọc Linh / Ngọk Kal / Ngọk Pâng",
-        "check"
+        "box"
       ],
       [
         "Chư Yang Sin",
-        "check"
+        "box"
       ],
       [
         "Đỉnh Bidoup",
-        "check"
+        "box"
       ],
       [
         "VQG Núi Chúa",
-        "check"
+        "box"
       ],
       [
         "Chư Yang Lak",
-        "check"
+        "box"
       ],
       [
         "Núi Bà Đen (Chùa - Cột)",
-        "check"
+        "box"
       ],
       [
         "Núi Brahyang - Yang Doan",
-        "check"
+        "box"
       ],
       [
         "Hoàng Ngưu Sơn",
-        "check"
+        "box"
       ]
     ],
     [
       [
         "Chư H'Mư - Hòn Vọng Phu",
-        "check"
+        "box"
       ],
       [
         "Phan Dũng - Yavly - Tà Năng",
-        "check"
+        "box"
       ],
       [
         "Bidoup - Phước Bình - Tà Giang",
-        "check"
+        "box"
       ]
     ]
   ],
   "appearance": {
-    "subtitleFontSize": 37,
-    "titleFontSize": 81,
+    "subtitleFontSize": 28,
+    "titleFontSize": 49,
     "routeFontSize": 19,
     "levelLabelFontSize": 21,
     "criteriaLabelVertical": -12,
