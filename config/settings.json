@@ -1,15 +1,6 @@
 {
   "title": "MIỀN NAM và tây nguyên",
   "footer": " TREKKING HÀNH TRÌNH XANH",
-  "appearance": {
-    "subtitleFontSize": 32,
-    "titleFontSize": 81,
-    "routeFontSize": 18,
-    "levelLabelFontSize": 21,
-    "criteriaLabelVertical": 0,
-    "criteriaLabelHorizontal": 0,
-    "criteriaLabelScale": 117
-  },
   "routes": [
     [
       [
@@ -17,179 +8,188 @@
         "check"
       ],
       [
-        "Nam Cát Tiên",
+        "Rừng Cát Tiên",
         "check"
       ],
       [
-        "Chư Blúk - Hồ Đá",
-        "box"
+        "Chư Blứk - Hố Da",
+        "check"
       ]
     ],
     [
       [
-        "Tượng Kỳ",
+        "Tương Kỳ",
         "check"
       ],
       [
         "Minh Đạm",
-        "x"
+        "check"
       ],
       [
         "Thị Vải",
-        "x"
+        "check"
       ],
       [
         "Tóc Tiên",
-        "box"
+        "check"
       ],
       [
         "Núi Dinh",
-        "box"
+        "check"
       ]
     ],
     [
       [
-        "Núi Lubu",
-        "box"
-      ],
-      [
         "Thác Phi Liêng",
-        "box"
+        "check"
       ],
       [
         "Thác Mưa Bay",
-        "box"
+        "check"
       ],
       [
         "Núi Tà Cú",
-        "box"
+        "check"
       ],
       [
         "Laan - Tuyệt Tình Cốc",
-        "box"
+        "check"
+      ],
+      [
+        "Lombur - Con đường lương thực",
+        "check"
+      ],
+      [
+        "Thác Triệu Hải",
+        "check"
       ]
     ],
     [
       [
         "Hồ Tiên - La Ngâu",
-        "box"
+        "check"
       ],
       [
-        "Masara - Đồi Cô Hồng",
-        "box"
-      ],
-      [
-        "Lombur - Con đường lương thực",
-        "box"
+        "Masara - Đồi Cỏ Hồng",
+        "check"
       ],
       [
         "Thác K50",
-        "box"
+        "check"
       ],
       [
-        "Thác Siêu Đuông",
-        "box"
-      ],
-      [
-        "Thác Triệu Hải",
-        "box"
+        "Thác Siu Puông",
+        "check"
       ],
       [
         "Chư Nâm - Chư Đăng Ya",
-        "box"
+        "check"
       ],
       [
         "Cực Đông - Mũi Đôi",
-        "box"
+        "check"
       ],
       [
         "Núi Cấm",
-        "box"
+        "check"
       ],
       [
         "VQG Bù Gia Mập",
-        "box"
+        "check"
       ],
       [
         "Núi Langbiang - Đồi Radar",
-        "box"
+        "check"
       ],
       [
         "Núi Đại Bình",
-        "box"
+        "check"
       ],
       [
         "Núi Chứa Chan",
-        "box"
+        "check"
+      ],
+      [
+        "Thác Tàm Thàm",
+        "check"
+      ],
+      [
+        "Mộng Đào Nguyên",
+        "check"
+      ],
+      [
+        "Thảo Nguyên Pal Sol",
+        "check"
       ]
     ],
     [
       [
         "Tà Năng - Đồi Lính - Phan Dũng",
-        "box"
+        "check"
       ],
       [
         "Đỉnh Tà Đùng",
-        "box"
+        "check"
       ],
       [
         "3 Đỉnh Lomburr - Thác Lâm An",
-        "box"
+        "check"
       ],
       [
-        "Chư Yang Lak",
-        "box"
+        "Ngọc Linh / Ngọk Kal / Ngọk Pâng",
+        "check"
       ],
       [
         "VQG Núi Chúa",
-        "box"
+        "check"
+      ],
+      [
+        "Đỉnh Bidoup",
+        "check"
+      ],
+      [
+        "Chư Yang Lak",
+        "check"
       ],
       [
         "Núi Bà Đen (Chùa - Cột)",
-        "box"
+        "check"
       ],
       [
         "Núi Brahyang - Yang Doan",
-        "box"
+        "check"
       ],
       [
-        "Mộng Đào Nguyên",
-        "box"
-      ],
-      [
-        "Hoàng Ngư Sơn",
-        "box"
-      ],
-      [
-        "Thảo Nguyên Pai Sol",
-        "box"
-      ],
-      [
-        "Bidoup Đỉnh",
-        "box"
-      ],
-      [
-        "Thác Tam Thâm",
-        "box"
+        "Hoàng Ngưu Sơn",
+        "check"
       ]
     ],
     [
       [
-        "Chư H'Mu - Hòn Vọng Phu",
-        "box"
+        "Chư H'Mư - Hòn Vọng Phu",
+        "check"
       ],
       [
         "Phan Dũng - Yavly - Tà Năng",
-        "box"
+        "check"
       ],
       [
         "Bidoup - Phước Bình - Tà Giang",
-        "box"
+        "check"
       ],
       [
         "Chư Yang Sin",
-        "box"
+        "check"
       ]
     ]
-  ]
+  ],
+  "appearance": {
+    "subtitleFontSize": 32,
+    "titleFontSize": 81,
+    "routeFontSize": 18,
+    "levelLabelFontSize": 21,
+    "criteriaLabelVertical": 0,
+    "criteriaLabelHorizontal": 38,
+    "criteriaLabelScale": 91
+  }
 }
