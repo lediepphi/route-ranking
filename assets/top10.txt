@@ -1,0 +1,181 @@
+
+{
+  "task": "Create a vertical infographic ranking poster",
+  "aspect_ratio": "9:15",
+  "reference_image": "Use the uploaded image as the primary visual style and color reference. Do not copy its exact layout.",
+  "prompt": "Design a premium Vietnamese infographic poster titled 'TOP 10 ĐỈNH NÚI CAO NHẤT MIỀN NAM & TÂY NGUYÊN'. The visual style should closely follow the uploaded reference image: flat vector illustration, vintage outdoor adventure poster, geometric mountain shapes, layered mountain landscapes, stylized pine forests, bold typography, clean editorial infographic layout, and subtle retro travel poster aesthetics. Use a warm natural color palette consisting of deep forest green, emerald green, teal, sage green, mustard yellow, golden orange, and warm ivory cream. The background should have a subtle vintage paper texture.
+  
+  LAYOUT AND COMPOSITION:
+  
+  1. HEADER SECTION (Top 22%):
+  - Large bold dark forest green rounded banner featuring the text 'TOP 10' in oversized white uppercase typography.
+  - Add a stylized white and green mountain peak illustration emerging from behind the banner.
+  - Below it, display the Vietnamese headline 'ĐỈNH NÚI CAO NHẤT' in large, bold, dark green uppercase lettering.
+  - Add a golden yellow ribbon underneath containing 'MIỀN NAM & TÂY NGUYÊN'.
+  - Include small decorative sun, clouds, and mountain silhouettes around the header.
+  
+  2. MOUNTAIN LANDSCAPE SECTION (Middle upper 18%):
+  - A beautiful panoramic illustration of layered mountains in different shades of emerald, teal, and forest green.
+  - Stylized pine trees and dense forest silhouettes at the bottom of the mountain scenery.
+  - Maintain a clean composition with sufficient contrast between the illustration and infographic content.
+  
+  3. TOP 10 RANKING SECTION (Middle 42%):
+  - Add a centered section heading 'BẢNG XẾP HẠNG' inside a dark green rounded label with a thin ivory border.
+  - Display exactly 10 ranking cards in a clean two-column layout, 5 cards per column.
+  - Each card should have a warm ivory cream background, rounded corners, thin dark green outline, and subtle shadow.
+  - Each card contains:
+    + A prominent ranking number from 1 to 10 inside a dark forest green vertical badge.
+    + Ranking number 1 should be highlighted with a mustard yellow and golden orange badge, with a small crown icon.
+    + A small flat vector mountain illustration in the center-left portion of the card.
+    + A clearly reserved text area on the right with the following placeholder structure:
+      'ĐỈNH NÚI [01-10]'
+      '▲ XXXX m'
+      '📍 [ĐỊA PHƯƠNG]'
+  - Keep all text areas blank only where appropriate for future manual editing. Do not invent mountain names, elevations, or locations.
+  - Ensure the 10 cards are visually consistent, evenly spaced, and perfectly aligned.
+  
+  4. BOTTOM INFORMATION SECTION (Bottom 13%):
+  - Create two separate information areas positioned side by side.
+  - BOTTOM LEFT: A compact rounded ivory cream panel with a dark green title header reading 'TIÊU CHÍ ĐÁNH GIÁ'. Below the heading, include exactly 3 numbered placeholder items:
+    '01. Các đỉnh trên cùng một sườn núi tính đỉnh cao nhất.'
+    '02. Các đỉnh núi cao nhưng không có tuyến trekking không được liệt kê vào.'
+    '03. Chỉ bao gồm các đỉnh núi từ Quãng Ngãi đến Cà Mau.'
+  - BOTTOM RIGHT: A visually balanced author credit panel featuring the text 'TÁC GIẢ' in small uppercase letters and 'CHÚ BÁO ĐI LẠC' in larger, bold, dark forest green typography.
+  - Add a small hiking or mountain exploration icon as a decorative accent.
+  
+  5. DECORATIVE DETAILS:
+  - Include a small adventurous hiker silhouette with a backpack and trekking pole near the bottom of the poster.
+  - Add subtle botanical leaves, pine trees, layered mountain ridges, and a small compass rose.
+  - Use organic mountain silhouettes to frame the composition without interfering with text readability.
+  
+  VISUAL STYLE:
+  - High-quality flat vector illustration.
+  - Vintage national park travel poster aesthetic.
+  - Bold geometric shapes and clean vector edges.
+  - Rich layered mountain scenery with simplified angular facets.
+  - Strong visual hierarchy and balanced infographic composition.
+  - Consistent rounded corners and decorative outlines.
+  - Professional editorial infographic design.
+  - Warm, adventurous, nature-inspired atmosphere.
+  - Crisp, readable Vietnamese typography with accurate diacritics.
+  - No photorealism, no 3D rendering, no gradients that look metallic, no excessive visual clutter.
+  
+  IMPORTANT REQUIREMENTS:
+  - Preserve the exact Vietnamese text provided in quotation marks.
+  - All 10 ranking positions must be present and numbered correctly from 1 to 10.
+  - The ranking cards must have enough empty space for manual editing later.
+  - Exactly 3 evaluation criteria placeholders must appear in the bottom-left corner.
+  - The author name 'CHÚ BÁO ĐI LẠC' must be clearly visible in the bottom-right corner.
+  - Maintain a vertical 9:15 composition.
+  - Prioritize legibility, visual hierarchy, and balanced spacing over decorative complexity."
+  ,
+  "negative_prompt": "Photorealistic photography, 3D render, realistic textures, overly complex details, cluttered composition, illegible typography, incorrect Vietnamese accents, misspelled words, duplicated ranking numbers, missing ranking cards, extra ranking cards, incorrect number sequence, random text, fabricated mountain names, fabricated elevations, fabricated locations, dark black background, neon colors, purple color palette, excessive gradients, inconsistent card sizes, distorted mountain illustrations, watermark, logos, low resolution, blurry edges.",
+  "style": {
+    "art_direction": "Flat vector vintage adventure infographic",
+    "primary_colors": [
+      "#064B36",
+      "#0B6548",
+      "#16816B",
+      "#4B9B82",
+      "#A8CDB0"
+    ],
+    "accent_colors": [
+      "#F5B52E",
+      "#F9A62A",
+      "#E9D88F"
+    ],
+    "background_color": "#FFF8E7",
+    "typography": "Bold condensed sans-serif for headlines, clean geometric sans-serif for information",
+    "texture": "Very subtle warm vintage paper grain"
+  },
+  "ranking_section": {
+    "title": "BẢNG XẾP HẠNG",
+    "total_items": 10,
+    "layout": "Two-column structured ranking grid with five rows per column",
+    "reading_order": "Left column from rank 1 to 5, then right column from rank 6 to 10",
+    "card_style": "Clean white rectangular cards with subtle rounded corners and consistent spacing",
+    "card_elements": [
+      "Large and prominent ranking number",
+      "Mountain name in bold uppercase typography",
+      "Elevation in meters (m)",
+      "Province or geographical location",
+      "Small minimalist mountain icon or elevation symbol"
+    ],
+    "ranking_number_style": "Large bold numbers in dark forest green, with special gold accents for rank 1",
+    "data_fields": {
+      "rank": "[01-10]",
+      "mountain_name": "[TÊN ĐỈNH NÚI]",
+      "elevation": "[ĐỘ CAO] m",
+      "location": "[TỈNH / KHU VỰC]"
+    },
+    "data_placeholders": [
+      {
+        "rank": "01",
+        "mountain_name": "Ngọc Linh",
+        "elevation": "2605 m",
+        "location": "Xã Ngọc Linh, Tỉnh Quãng Ngãi"
+      },
+      {
+        "rank": "02",
+        "mountain_name": "Chư Yang Sin",
+        "elevation": "2442 m",
+        "location": "Xã Krông Bông, Tỉnh Đắk Lắk"
+      },
+      {
+        "rank": "03",
+        "mountain_name": "Ngọk Pâng - Ngọk Kal",
+        "elevation": "2390 m - 2230 m",
+        "location": "Xã Đắk Sao, Tỉnh Quãng Ngãi"
+      },
+      {
+        "rank": "04",
+        "mountain_name": "Bidoup",
+        "elevation": "2287 m",
+        "location": "Xã Lạc Dương, Tỉnh Lâm Đồng"
+      },
+      {
+        "rank": "05",
+        "mountain_name": "Langbiang - Núi Ông",
+        "elevation": "2167 m - 2124 m",
+        "location": "Phường Lang Biang, Tỉnh Lâm Đồng"
+      },
+      {
+        "rank": "06",
+        "mountain_name": "Chư Mư - Hòn Vọng Phu",
+        "elevation": "2015 m",
+        "location": "Xã Cư M'ta, Tỉnh Đắk Lắk"
+      },
+      {
+        "rank": "07",
+        "mountain_name": "Đỉnh Tà Đùng",
+        "elevation": "1982 m",
+        "location": "Xã Tà Đùng, Tỉnh Lâm Đồng"
+      },
+      {
+        "rank": "08",
+        "mountain_name": "Lomburr 3 Đỉnh",
+        "elevation": "1960 m - 1920 m - 1910 m",
+        "location": "Xã Đam Rông 4, Tỉnh Lâm Đồng"
+      },
+      {
+        "rank": "09",
+        "mountain_name": "Brahyang - Yang Doan",
+        "elevation": "1879 m - 1812m",
+        "location": "Xã Bảo Thuận, Tỉnh Lâm Đồng"
+      },
+      {
+        "rank": "10",
+        "mountain_name": "Núi Voi",
+        "elevation": "1800m",
+        "location": "Xã Hiệp Thạnh, Tỉnh Lâm Đồng"
+      }
+    ]
+  },
+  "output": {
+    "format": "Vertical infographic poster",
+    "aspect_ratio": "9:15",
+    "quality": "High resolution",
+    "text_language": "Vietnamese",
+    "visual_consistency": "Strictly follow the reference image's illustration style and color palette"
+  }
+}
