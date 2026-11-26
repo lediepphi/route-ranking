@@ -39,7 +39,7 @@
   - BOTTOM LEFT: A compact rounded ivory cream panel with a dark green title header reading 'TIÊU CHÍ ĐÁNH GIÁ'. Below the heading, include exactly 3 numbered placeholder items:
     '01. Các đỉnh trên cùng một sườn núi tính đỉnh cao nhất.'
     '02. Các đỉnh núi cao nhưng không có tuyến trekking không được liệt kê vào.'
-    '03. Chỉ bao gồm các đỉnh núi từ Quãng Ngãi đến Cà Mau.'
+    '03. Chỉ bao gồm các đỉnh núi từ Quảng Ngãi đến Cà Mau.'
   - BOTTOM RIGHT: A visually balanced author credit panel featuring the text 'TÁC GIẢ' in small uppercase letters and 'CHÚ BÁO ĐI LẠC' in larger, bold, dark forest green typography.
   - Add a small hiking or mountain exploration icon as a decorative accent.
   
@@ -113,7 +113,7 @@
         "rank": "01",
         "mountain_name": "Ngọc Linh",
         "elevation": "2605 m",
-        "location": "Xã Ngọc Linh, Tỉnh Quãng Ngãi"
+        "location": "Xã Ngọc Linh, Tỉnh Quảng Ngãi"
       },
       {
         "rank": "02",
@@ -125,7 +125,7 @@
         "rank": "03",
         "mountain_name": "Ngọk Pâng - Ngọk Kal",
         "elevation": "2390 m - 2230 m",
-        "location": "Xã Đắk Sao, Tỉnh Quãng Ngãi"
+        "location": "Xã Đắk Sao, Tỉnh Quảng Ngãi"
       },
       {
         "rank": "04",
@@ -141,7 +141,7 @@
       },
       {
         "rank": "06",
-        "mountain_name": "Chư Mư - Hòn Vọng Phu",
+        "mountain_name": "Chư H'Mư - Hòn Vọng Phu",
         "elevation": "2015 m",
         "location": "Xã Cư M'ta, Tỉnh Đắk Lắk"
       },
@@ -159,7 +159,7 @@
       },
       {
         "rank": "09",
-        "mountain_name": "Brahyang - Yang Doan",
+        "mountain_name": "Brah Yang - Yang Doan",
         "elevation": "1879 m - 1812m",
         "location": "Xã Bảo Thuận, Tỉnh Lâm Đồng"
       },

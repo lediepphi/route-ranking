@@ -12,7 +12,14 @@
     <p>Chỉnh sửa nội dung, xem trước và tải poster PNG.</p>
   </header>
 
-  <main>
+  <nav class="tab-nav" role="tablist" aria-label="Chế độ chỉnh sửa poster">
+    <button id="trekking-tab" class="tab-button" type="button" role="tab"
+            aria-selected="true" aria-controls="trekking-panel">Poster trekking</button>
+    <button id="top10-tab" class="tab-button" type="button" role="tab"
+            aria-selected="false" aria-controls="top10-panel" tabindex="-1">Top 10 đỉnh núi</button>
+  </nav>
+
+  <main id="trekking-panel" class="tab-panel" role="tabpanel" aria-labelledby="trekking-tab" tabindex="0">
     <section class="editor" aria-label="Poster settings">
       <div class="field">
         <label for="title">Tiêu đề</label>
@@ -102,6 +109,24 @@
       </div>
       <p class="hint">Ảnh phần trên mặc định lấy từ <code>assets/6peaks.png</code>; nhãn tiêu chí dùng <code>assets/criteria-label.png</code> (nền trắng được làm trong suốt).</p>
       <p id="status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <main id="top10-panel" class="tab-panel top10-panel" role="tabpanel"
+        aria-labelledby="top10-tab" tabindex="0" hidden>
+    <section class="top10-preview" aria-label="Poster Top 10 đỉnh núi">
+      <div class="top10-preview-head">
+        <div>
+          <h2>Top 10 đỉnh núi miền Nam &amp; Tây Nguyên</h2>
+          <p class="hint">Ảnh các đỉnh núi đã thay thế hình minh họa trong poster gốc.</p>
+        </div>
+        <button id="download-top10" class="primary" type="button">Tải ảnh PNG</button>
+      </div>
+      <div class="top10-canvas-wrap">
+        <canvas id="top10-canvas" aria-label="Poster Top 10 với ảnh núi đã thay thế"></canvas>
+      </div>
+      <p id="top10-dimensions" class="hint">Đang tải ảnh nền…</p>
+      <p id="top10-status" role="status" aria-live="polite"></p>
     </section>
   </main>
 

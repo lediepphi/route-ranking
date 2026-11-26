@@ -59,11 +59,27 @@ const posterLevelLabels = document.getElementById("poster-level-labels");
 const peakImage = document.getElementById("peak-image");
 const criteriaLabel = document.getElementById("criteria-label");
 const status = document.getElementById("status");
+const top10Canvas = document.getElementById("top10-canvas");
+const top10Status = document.getElementById("top10-status");
+const top10Dimensions = document.getElementById("top10-dimensions");
+const TOP10_IMAGE_SLOTS = [
+  { x: 132, y: 620, width: 144, height: 100, images: ["top-1.jpg"] },
+  { x: 597, y: 620, width: 145, height: 100, images: ["top-6.jpg"] },
+  { x: 132, y: 744, width: 144, height: 100, images: ["top-2.jpg"] },
+  { x: 597, y: 744, width: 145, height: 100, images: ["top-7.jpg"] },
+  { x: 132, y: 868, width: 144, height: 100, images: ["top-3-left.jpg", "top-3-right.jpg"] },
+  { x: 597, y: 868, width: 145, height: 100, images: ["top-8.jpg"] },
+  { x: 132, y: 991, width: 144, height: 100, images: ["top-4.jpg"] },
+  { x: 597, y: 991, width: 145, height: 100, images: ["top-9-left.jpg", "top-9-right.jpg"] },
+  { x: 132, y: 1115, width: 144, height: 100, images: ["top-5.jpg"] },
+  { x: 597, y: 1115, width: 145, height: 100, images: ["top-10.jpg"] }
+];
 let backgroundObjectUrl = null;
 let persistenceAvailable = false;
 let saveTimer = null;
 let saveQueue = Promise.resolve();
 let criteriaLabelTransparencyPromise = null;
+let top10Rendered = false;
 
 function setStatus(message) {
   status.textContent = message;
@@ -467,6 +483,61 @@ function relativeRect(element, rootRect) {
   };
 }
 
+function loadImage(source) {
+  const image = new Image();
+  image.src = source;
+  return image.decode().then(() => image);
+}
+
+function drawImageCover(context, image, x, y, width, height) {
+  const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+  const sourceWidth = width / scale;
+  const sourceHeight = height / scale;
+  const sourceX = (image.naturalWidth - sourceWidth) / 2;
+  const sourceY = (image.naturalHeight - sourceHeight) / 2;
+  context.drawImage(
+    image,
+    sourceX, sourceY, sourceWidth, sourceHeight,
+    x, y, width, height
+  );
+}
+
+async function renderTop10Poster() {
+  if (top10Rendered) return;
+  const assetRoot = "./assets/top10/";
+  const background = await loadImage(`${assetRoot}Top 10 Đỉnh Núi Miền Nam - Tây Nguyên.png`);
+  const imageNames = [...new Set(TOP10_IMAGE_SLOTS.flatMap(({ images }) => images))];
+  const images = await Promise.all(
+    imageNames.map((name) => loadImage(`${assetRoot}crops/${name}`))
+  );
+  const imagesByName = new Map(imageNames.map((name, index) => [name, images[index]]));
+  const context = top10Canvas.getContext("2d");
+  if (!context) throw new Error("Trình duyệt không tạo được bộ dựng ảnh.");
+
+  top10Canvas.width = background.naturalWidth;
+  top10Canvas.height = background.naturalHeight;
+  context.drawImage(background, 0, 0);
+  TOP10_IMAGE_SLOTS.forEach(({ x, y, width, height, images: names }) => {
+    if (names.length === 1) {
+      drawImageCover(context, imagesByName.get(names[0]), x, y, width, height);
+      return;
+    }
+
+    const halfWidth = width / 2;
+    drawImageCover(context, imagesByName.get(names[0]), x, y, halfWidth, height);
+    drawImageCover(
+      context,
+      imagesByName.get(names[1]),
+      x + halfWidth,
+      y,
+      width - halfWidth,
+      height
+    );
+  });
+  top10Dimensions.textContent = `${background.naturalWidth} × ${background.naturalHeight} px`;
+  top10Rendered = true;
+}
+
 async function renderPosterPng() {
   await Promise.all([peakImage.decode(), ensureCriteriaLabelTransparency()]);
   const previousZoom = poster.style.zoom;
@@ -718,6 +789,50 @@ document.getElementById("download").addEventListener("click", async () => {
       ? " Hãy chạy python server.py và mở http://127.0.0.1:8765 để xuất PNG."
       : "";
     setStatus(`Không thể tạo ảnh PNG: ${error.message}.${suggestion}`);
+  }
+});
+
+const tabs = [
+  { button: document.getElementById("trekking-tab"), panel: document.getElementById("trekking-panel") },
+  { button: document.getElementById("top10-tab"), panel: document.getElementById("top10-panel") }
+];
+tabs.forEach(({ button, panel }) => {
+  button.addEventListener("click", async () => {
+    tabs.forEach(({ button: tabButton, panel: tabPanel }) => {
+      const selected = tabButton === button;
+      tabButton.setAttribute("aria-selected", String(selected));
+      tabButton.tabIndex = selected ? 0 : -1;
+      tabPanel.hidden = !selected;
+    });
+    if (panel.id !== "top10-panel") return;
+    top10Status.textContent = "Đang dựng poster…";
+    try {
+      await renderTop10Poster();
+      top10Status.textContent = "";
+    } catch (error) {
+      top10Status.textContent = `Không thể dựng poster Top 10: ${error.message}`;
+    }
+  });
+});
+
+document.getElementById("download-top10").addEventListener("click", async () => {
+  top10Status.textContent = "Đang xuất ảnh PNG…";
+  try {
+    await renderTop10Poster();
+    const blob = await new Promise((resolve, reject) => {
+      top10Canvas.toBlob((result) => {
+        if (result) resolve(result);
+        else reject(new Error("Không thể mã hóa poster thành PNG."));
+      }, "image/png");
+    });
+    const link = document.createElement("a");
+    link.download = "top-10-dinh-nui-mien-nam-tay-nguyen.png";
+    link.href = URL.createObjectURL(blob);
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    top10Status.textContent = `Đã tải ảnh PNG ${top10Canvas.width} × ${top10Canvas.height} px.`;
+  } catch (error) {
+    top10Status.textContent = `Không thể tạo ảnh PNG: ${error.message}`;
   }
 });
 
